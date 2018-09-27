@@ -27,12 +27,12 @@ public class ARCache<K, V> implements iCache<K, V> {
 	 * Algorithm:
 	 * 	If key exists in LRU cache:
 	 * 		promote it to LFU
-	 *  else if key exists in LFU:
+	 *  or if key exists in LFU:
 	 *  	return the value from LFU
-	 *  else if key is a recency ghost:
+	 *  or if key is a recency ghost:
 	 *  	increase the recency cache size by 1
 	 *  	decrease frequency cache size by 1
-	 *  else if key is a frequency ghost:
+	 *  or if key is a frequency ghost:
 	 *  	increase frequency cache size by 1
 	 *  	decrease recency cache size by 1
 	 * 
