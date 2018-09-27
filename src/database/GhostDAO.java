@@ -23,6 +23,7 @@ public class GhostDAO {
 			Statement stmt = conn.createStatement();
 			ResultSet set = stmt.executeQuery(query);
 			if (set.next()) {
+				return this.createModel(set);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -33,7 +34,7 @@ public class GhostDAO {
 
 	protected Ghost createModel(ResultSet set) {
 		try {
-			return new Ghost(set.getString("key"), set.getString("type"));
+			return new Ghost(set.getString("cache_key"), set.getString("type"));
 		} catch(SQLException e) {
 			e.printStackTrace();
 			return null;

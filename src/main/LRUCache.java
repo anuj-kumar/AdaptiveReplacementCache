@@ -28,7 +28,9 @@ public class LRUCache<K, V> implements iCache<K, V>, iEvictable, iBounded {
 
 	@Override
 	public void set(K key, V value) {
-		if (this.get(key) != null) {
+		Node<K, V> oldEntry = this.map.get(key);
+		if (oldEntry != null) {
+			oldEntry.value = value;
 			return;
 		} else if (isFull()) {
 			this.evict();
@@ -63,7 +65,7 @@ public class LRUCache<K, V> implements iCache<K, V>, iEvictable, iBounded {
 			return;
 		if (head == node) {
 			head = node.next;
-			head.prev = null;
+			node.prev = null;
 		} else if (node == end) {
 			end = node.prev;
 			end.next = null;
@@ -78,8 +80,9 @@ public class LRUCache<K, V> implements iCache<K, V>, iEvictable, iBounded {
 	public K evict() {
 		if (this.end == null)
 			return null;
+		Node<K, V> last = this.end;
 		this.removeNode(this.end);
-		return this.end.key;
+		return last.key;
 	}
 
 	@Override

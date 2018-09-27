@@ -40,11 +40,10 @@ public class LFUCache<K, V> implements iCache<K, V>, iBounded, iEvictable<K> {
 			return;
 		} else if (isFull()) {
 			this.evict();
-		} else {
-			Node<K, V> createdNode = new Node<K, V>(key, value);
-			this.map.put(key, createdNode);
-			this.queue.add(createdNode);
 		}
+		Node<K, V> createdNode = new Node<K, V>(key, value);
+		this.map.put(key, createdNode);
+		this.queue.add(createdNode);
 	}
 
 	@Override

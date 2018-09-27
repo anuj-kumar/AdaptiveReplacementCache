@@ -1,13 +1,12 @@
 package tests;
 
+import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
 
 import main.AdaptiveLFUCache;
 import main.LFUCache;
 
-class AdaptiveLFUCacheTest {
+public class AdaptiveLFUCacheTest {
 	LFUCache<String, String> cache;
 
 	public AdaptiveLFUCacheTest() {
