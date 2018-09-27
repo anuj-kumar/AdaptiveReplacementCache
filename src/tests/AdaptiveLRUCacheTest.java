@@ -1,13 +1,13 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import main.AdaptiveLRUCache;
 import main.LRUCache;
 
-class AdaptiveLRUCacheTest {
+public class AdaptiveLRUCacheTest {
 	LRUCache<String, String> cache;
 
 	public AdaptiveLRUCacheTest() {
