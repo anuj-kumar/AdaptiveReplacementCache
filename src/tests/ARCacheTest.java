@@ -1,13 +1,15 @@
-package main;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class ARCacheTest {
+import main.ARCache;
+
+public class ARCacheTest {
 
 	@Test
-	final void testARCache() {
+	public void testARCache() {
 		ARCache<String, String> cache = new ARCache<String, String>(4);
 		cache.set("1", "a");
 		cache.set("2", "b");
@@ -17,33 +19,35 @@ class ARCacheTest {
 		cache.set("4", "d");
 		// [4 3|   ]
 		assertEquals(null, cache.get("1"), "evicted from lru");
+		cache.set("3", "cc");
+		assertEquals("cc", cache.get("3"), "Update existing cache entry");
 		cache.get("3");
-		// [4  |3  ]
+		// [4    |3]
 		cache.set("5", "e");
-		// [5 4|3  ]
+		// [5 4  |3]
 		cache.set("6", "f");
-		// [6 5|3  ]
-		assertEquals("c", cache.get("3"), "promoted to lfu");
-		assertEquals(null, cache.get("4"), "evicted from lru");
-		// 4 is a ghost entry, so size of recency cache should increase
-		// [6 5  |3]
+		// [6 5 4|3]
+		assertEquals("cc", cache.get("3"), "promoted to lfu");
+		cache.get("4");
+		assertEquals("d", cache.get("4"), "promoted from lru");
+		assertEquals(null, cache.get("3"), "evicted from lfu");
+		// 3 is a ghost entry, so size of recency cache should increase
 		cache.get("5");
-		// So 3 should become invalid now, since LFU size shrunk
-		// [6    |5]
+		// 5 gets promoted to lfu
+		// [6  |4 5]
 		assertEquals(null, cache.get("3"), "lfu shrunk and 3 evicted");
-		// now the recency cache expands again shrinking the frequency cache
-		// [6 5|3  ]
+		// now the frequency cache expands again shrinking the recency cache
+		// [6|4 5  ]
 		cache.get("6");
 		// 6 gets promoted to LFU
 		// 5 should still be there
-		// [5  |3 6]
-		assertEquals("e", cache.get("5"), "not evicted");
-		// [   |3 5]
-		assertEquals(null, cache.get("6"), "evicted from lfu");
-		// resize happens now
-		// [ |  3 5]
+		// [ |4 5 6]
+		assertEquals(null, cache.get("1"), "resize LRU");
+		// [   |4 6]
 		cache.set("4", "dd");
-		// [4|  3 5]
+		// [4  |3 6]
+		assertEquals(null, cache.get("5"));
+		assertEquals("dd", cache.get("4"));
 	}
 
 }
