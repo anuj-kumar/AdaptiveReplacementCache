@@ -1,7 +1,7 @@
 # Adaptive Replacement Cache
 Implementation of the Adaptive Replacement cache in Java.
 
-[Link to the paper](ftp://paranoidbits.com/ebooks/Outperforming%20LRU%20with%20an%20Adaptive%20Replacement%20Cache.pdf)
+Link to the paper: ftp://paranoidbits.com/ebooks/Outperforming%20LRU%20with%20an%20Adaptive%20Replacement%20Cache.pdf
 
 ## Algorithm:
 1. Initialize the cache with equal share of capacity between LRU and LFU caches.
